@@ -1,70 +1,62 @@
-# Sistema de Gestión Veterinaria
+# Sistema de Facturación FRUBER 🍎🍌
 
-## Descripción General
+Este es un sistema de facturación interactivo para una tienda tipo frutería, desarrollado en Python usando `Tkinter`. El sistema simula el flujo completo de ventas, generación de facturas y análisis estadístico.
 
-El **Sistema de Gestión Veterinaria** es una aplicación desarrollada en Python para optimizar la administración de clínicas veterinarias. Permite registrar clientes y mascotas, agendar y gestionar citas, actualizar información y generar reportes.
+---
 
-## Características
+## 🧰 Características Principales
 
-- Registro y gestión de clientes y sus mascotas.
-- Programación, modificación y cancelación de citas veterinarias.
-- Consulta del historial de citas de cada mascota.
-- Generación de reportes de clientes y mascotas.
+- Interfaz gráfica amigable con **Tkinter**
+- Selección de productos, cantidades y control de **stock**
+- Registro de clientes con nombre y cédula/NIT
+- Generación de **factura en PDF** con desglose de Subtotal, IVA (19%) y Total
+- Visualización del **carrito de compras en tiempo real**
+- Historial de ventas con detalle de productos vendidos
+- Panel de **estadísticas**:
+  - Productos más vendidos
+  - Clientes con mayor volumen y valor de compra
+- Valores en **pesos colombianos (COP)** 💵
+- Interfaz personalizada con colores y branding de **TIENDA FRUBER**
 
-## Requisitos
+---
 
-Para ejecutar el proyecto, necesitas:
-
-- **Python 3.x** instalado.
-- Librerías necesarias (pueden instalarse con `pip`).
-
-Instalar dependencias con el siguiente comando:
-
-```bash
-pip install -r requirements.txt
-```
-
-## Uso
-
-1. Clonar el repositorio:
+## 📦 Estructura del Proyecto
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
-cd sistema_gestion_veterinaria
+Reto3_Fruber/
+├── main.py               # Interfaz gráfica y lógica de interacción
+├── productos.py          # Catálogo de productos y precios
+├── excepciones.py        # Manejo de errores personalizados
+├── operaciones.py        # Lógica de facturación, generación de PDF y estadísticas
+├── facturas/             # Carpeta generada automáticamente con los PDFs
 ```
 
-2. Crear un entorno virtual (opcional pero recomendado):
+---
+
+## 🚀 Requisitos
+
+Asegúrate de tener Python 3 instalado.
+
+Instala las dependencias necesarias:
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # En macOS y Linux
-venv\Scripts\activate  # En Windows
+pip install fpdf matplotlib
 ```
 
-3. Ejecutar el programa:
+---
+
+## ▶️ Ejecutar el programa
 
 ```bash
 python main.py
 ```
 
-4. Seguir las instrucciones en la interfaz para gestionar clientes, mascotas y citas.
+---
 
-## Estructura del Proyecto
+## 📄 Licencia
 
-```
-├── main.py            # Archivo principal
-├── models/            # Clases y estructuras del sistema
-│   ├── cliente.py     # Gestión de clientes
-│   ├── mascota.py     # Gestión de mascotas
-│   ├── cita.py        # Gestión de citas
-├── reports/           # Generación de reportes
-├── utils/             # Funciones auxiliares
-│   ├── helpers.py     # Funciones de utilidad
-├── README.md          # Documentación del proyecto
-├── requirements.txt   # Dependencias
-├── .gitignore         # Archivos a excluir en Git
-```
+Este proyecto se desarrolló con fines académicos. ¡Puedes usarlo, modificarlo y mejorarlo!
 
-## Contribución
+---
 
-Si deseas mejorar el sistema, por favor crea un *fork* del repositorio y envía un *pull request* con tus cambios.
+**Desarrollado con ❤️ para Fruber por Felipe Parada y Edinson Hernandez.**
