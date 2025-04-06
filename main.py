@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from productos import productos
+from operaciones import agregar_al_carrito, calcular_total, registrar_venta, historial_ventas, venta_por_producto, venta_por_cliente
+from excepciones import *
+import matplotlib.pyplot as plt
 
 carrito = []
 
@@ -47,13 +50,29 @@ carrito_listbox = tk.Listbox(carrito_frame, height=20, width=40)
 carrito_listbox.pack(pady=5)
 
 def actualizar_total():
-    pass
+    total = calcular_total(carrito)
+    total_label.config(text=f"Total: ${total:.0f}")
 
 def actualizar_carrito():
-    pass
+    carrito_listbox.delete(0, tk.END)
+    for item in carrito:
+        carrito_listbox.insert(tk.END, f"{item['nombre']} x{item['cantidad']} = ${item['cantidad'] * item['precio']:.0f}")
 
 def agregar_producto():
-    pass
+    seleccion = lista_productos.curselection()
+    if not seleccion:
+        messagebox.showerror("Error", "Debe seleccionar un producto")
+        return
+    nombre = list(productos.keys())[seleccion[0]]
+    cantidad = cantidad_entry.get()
+    try:
+        agregar_al_carrito(nombre, cantidad, carrito)
+        actualizar_total()
+        actualizar_lista_productos()
+        actualizar_carrito()
+        cantidad_entry.delete(0, tk.END)
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
 
 def actualizar_lista_productos():
     pass
