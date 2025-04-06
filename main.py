@@ -75,17 +75,63 @@ def agregar_producto():
         messagebox.showerror("Error", str(e))
 
 def actualizar_lista_productos():
-    pass
+    lista_productos.delete(0, tk.END)
+    for prod in productos:
+        lista_productos.insert(tk.END, f"{prod} - ${productos[prod]['precio']} - Stock: {productos[prod]['stock']}")
 
 def finalizar_compra():
-    pass
+    if not carrito:
+        messagebox.showinfo("Información", "El carrito está vacío")
+        return
+    nombre = nombre_entry.get().strip()
+    cedula = cedula_entry.get().strip()
+    if not nombre or not cedula:
+        messagebox.showerror("Error", "Debe ingresar los datos del cliente")
+        return
+    cliente = {"nombre": nombre, "cedula": cedula}
+    factura_id, venta, subtotal, iva, total, fecha, resumen = registrar_venta(carrito, cliente)
+    messagebox.showinfo("Compra finalizada", resumen)
+    carrito.clear()
+    actualizar_total()
+    actualizar_lista_productos()
+    actualizar_carrito()
+    nombre_entry.delete(0, tk.END)
+    cedula_entry.delete(0, tk.END)
+    cantidad_entry.delete(0, tk.END)
 
 def mostrar_historial():
-    pass
+    hist_win = tk.Toplevel(root)
+    hist_win.title("Historial de Ventas")
+    hist_win.geometry("800x400")
+    tree = ttk.Treeview(hist_win, columns=("Factura", "Cliente", "Total", "Fecha", "Detalle"), show='headings')
+    tree.heading("Factura", text="Factura ID")
+    tree.heading("Cliente", text="Cliente")
+    tree.heading("Total", text="Total")
+    tree.heading("Fecha", text="Fecha")
+    tree.heading("Detalle", text="Detalle")
+    tree.pack(fill="both", expand=True)
+    for venta in historial_ventas:
+        cliente = f"{venta['cliente']['nombre']} ({venta['cliente']['cedula']})"
+        detalle = ", ".join([f"{x['nombre']} x{x['cantidad']}" for x in venta["venta"]])
+        tree.insert('', tk.END, values=(venta["id"], cliente, f"${venta['total']:.0f}", venta['fecha'], detalle))
 
 def mostrar_estadisticas():
-    pass
-
+    if not venta_por_producto:
+        messagebox.showinfo("Sin datos", "Aún no hay ventas registradas")
+        return
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+    ax1.bar(venta_por_producto.keys(), venta_por_producto.values())
+    ax1.set_title("Productos más vendidos")
+    ax1.set_ylabel("Cantidad")
+    clientes = list(venta_por_cliente.keys())
+    cantidades = [venta_por_cliente[c]["cantidad"] for c in clientes]
+    valores = [venta_por_cliente[c]["valor"] for c in clientes]
+    ax2.bar(clientes, valores)
+    ax2.set_title("Ventas por cliente ($COP)")
+    ax2.set_ylabel("Valor")
+    plt.tight_layout()
+    plt.show()
+    
 btn_agregar = ttk.Button(frame, text="Agregar al carrito", command=agregar_producto)
 btn_agregar.grid(row=5, column=0, pady=5)
 btn_finalizar = ttk.Button(frame, text="Finalizar Compra", command=finalizar_compra)
